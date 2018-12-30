@@ -1,6 +1,42 @@
 // phina.js をグローバル領域に展開
 phina.globalize();
 
+//定数
+var FRAME_SIZE = 32;
+var ANIMATION_FREQUENCY = 3;
+
+
+//アセット
+var ASSETS = {
+  //画像
+  image:{
+    'uribo':'./Resource/uribo_running.png',
+  },
+
+  //スプライトシート
+  spritesheet:{
+    'uribo_ss': 
+    {
+      'frame': {
+        'width': FRAME_SIZE,
+        'height': FRAME_SIZE,
+        'cols': 3,
+        'rows': 1,
+      },
+
+      'animations': {
+        'running': {
+          'frames': [0,1,2],
+          'next': 'running',
+          'frequency': ANIMATION_FREQUENCY,
+
+        },
+      }
+    },
+  }
+};
+
+//ドット絵」表示をきれいにする
 phina.define('PixelSprite', {
   superClass: 'Sprite',
 
@@ -17,35 +53,6 @@ phina.define('PixelSprite', {
   },
 });
 
-//アセット
-var ASSETS = {
-  //画像
-  image:{
-    'uribo':'./Resource/uribo_running.png',
-  },
-
-  //スプライトシート
-  spritesheet:{
-    'uribo_ss': 
-    {
-      'frame': {
-        'width': 32,
-        'height': 32,
-        'cols': 3,
-        'rows': 1,
-      },
-
-      'animations': {
-        'running': {
-          'frames': [0,1,2],
-          'next': 'running',
-          'frequency': 3,
-
-        },
-      }
-    },
-  }
-};
 
 // MainScene クラスを定義
 phina.define('MainScene', {
@@ -55,13 +62,13 @@ phina.define('MainScene', {
     // 背景色を指定
     this.backgroundColor = '#444';
 
-    var uriboSprite = PixelSprite('uribo',32,32).addChildTo(this);
+    var uriboSprite = PixelSprite('uribo',FRAME_SIZE,FRAME_SIZE).addChildTo(this);
     var anim = FrameAnimation('uribo_ss').attachTo(uriboSprite);
     anim.gotoAndPlay('running');
 
     uriboSprite.x = this.gridX.center();
     uriboSprite.y = this.gridY.center();
-    uriboSprite.setScale
+    uriboSprite.setScale(4,4);
    
   },
 });
