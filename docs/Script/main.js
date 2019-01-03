@@ -14,7 +14,7 @@ var TIME_COUNTDOWN = 3 * 1000;
 var PLAYER_SPEED = 10;
 var JUMP_POWER = 10;
 var JUMP_MAX_HEIGHT = MAPCHIP_SIZE * SPRITE_SCALE * (GRID_Y_GROUND - 2);
-var JUMP_STAY_DISTANCE = 30;
+var JUMP_STAY_DISTANCE = 40;
 var GROUND_HEIGHT = MAPCHIP_SIZE * SPRITE_SCALE * (GRID_Y_GROUND);
 var GRAVITY = 0.5;
 var MAP_GRID_X;
@@ -60,15 +60,15 @@ var PlayerState = {
 var playerState = new StateStruct(PlayerState.Stay,PlayerState.None);
 
 var mapDataArray = [
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,3,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ];
 
 //アセット
@@ -209,12 +209,9 @@ phina.define('Player',{
       switch(state){
         case PlayerState.Stay:
           self.anim.gotoAndPlay('stay');
-          //self.setInteractive(false);//タッチ不可
           break;
         case PlayerState.Running:
           self.anim.gotoAndPlay('running');
-          
-          //self.bottom = 
           break;
         case PlayerState.Jump_Up:
           self.anim.gotoAndPlay('jump_up');
@@ -227,6 +224,7 @@ phina.define('Player',{
           self.anim.gotoAndPlay('tenmetu');
           break;
         case PlayerState.Goal:
+          self.anim.gotoAndPlay('stay');
           break;
       }
     };
@@ -293,6 +291,7 @@ phina.define('Ground',{
   init: function(){
     this.superInit('ground',16,16);
     this.setOrigin(0.5,0.5);
+    this.id = MapChipID.Ground;
 
   },
 });
@@ -303,6 +302,7 @@ phina.define('Goal',{
   init: function(){
     this.superInit('goal',32,32);
     this.setOrigin(0.5,0.75);
+    this.id = MapChipID.Goal;
 
   },
 });
@@ -313,6 +313,7 @@ phina.define('Trap',{
   init: function(){
     this.superInit('trap',16,16);
     this.setOrigin(0.5,0.5);
+    this.id = MapChipID.Trap;
 
   },
 
@@ -372,6 +373,7 @@ phina.define('MainScene', {
         case GameState.GameOver:
           break;
         case GameState.Goal:
+            label.text = 'Goal!'
           break;
       }
     };
@@ -416,6 +418,7 @@ phina.define('MainScene', {
             case MapChipID.Goal:
             mapchip = Goal();
             mapchip.addChildTo(displayElement);
+            hitItemArray.push(mapchip);
             mapchip.setPosition(MAP_GRID_X.span(spanX),MAP_GRID_Y.span(spanY));
             break;   
         }
@@ -466,31 +469,25 @@ phina.define('MainScene', {
         case GameState.Start:        
           break;
         case GameState.GamePlay:
-          if(playerState.current === PlayerState.Damage){
-            
+          if(playerState.current === PlayerState.Damage){           
             return;
           }       
           self.hitItemArray.forEach(function(hitItem){
-            // var playerCol1 = CircleShape(uriboSprite.x - (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y + uriboSprite.y/16,uriboSprite.radius)
-            // .addChildTo(self)
-            // .setPosition(uriboSprite.x - (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y + uriboSprite.y/16);
-            //.alpha = 0.1;
-            //playerCol1.backgroundColor ='red';
-            // var playerCol2 = CircleShape(uriboSprite.x + (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y,uriboSprite.radius)
-            // .addChildTo(self)
-            // .setPosition(uriboSprite.x + (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y + uriboSprite.y/16);
-            //.alpha = 0.1;
-
-            // var rect = RectangleShape(hitItem.x + self.mapDisplay.x,hitItem.y,
-            //                 hitItem.width * COLLISION_SCALE,hitItem.height* COLLISION_SCALE)
-            //                 .addChildTo(self)
-            //                 .setPosition(hitItem.x + self.mapDisplay.x,hitItem.y);
-                            //.alpha = 0.1;
             var playerCol1 = Circle(uriboSprite.x - (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y + uriboSprite.y/16,uriboSprite.radius);
             var playerCol2 = Circle(uriboSprite.x + (FRAME_SIZE * SPRITE_SCALE / 2),uriboSprite.y + uriboSprite.y/16,uriboSprite.radius)
             var rect = Rect(hitItem.x + self.mapDisplay.x,hitItem.y, hitItem.width * COLLISION_SCALE,hitItem.height* COLLISION_SCALE);
             if(Collision.testCircleRect(playerCol1,rect) || Collision.testCircleRect(playerCol2,rect) ){
-              playerState.current = PlayerState.Damage;
+              
+              switch(hitItem.id){
+                case MapChipID.Trap:
+                  playerState.current = PlayerState.Damage;
+                  break;
+                case MapChipID.Goal:
+                  playerState.current = PlayerState.Goal;
+                  gameState.current = GameState.Goal;
+                  break;
+              }
+              
             }
           });
 
@@ -503,13 +500,6 @@ phina.define('MainScene', {
     };
 
   },
-
-  //グリッドのマス数入れるとWidthを計算する
-  // getGridSize: function(cellCount){
-  //   var width = MAPCHIP_SIZE * SPRITE_SCALE * cellCount;
-  //   var columns = cellCount;
-  //   return [width,columns];
-  // },
 
 });
 
