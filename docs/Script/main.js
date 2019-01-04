@@ -14,7 +14,7 @@ var TIME_COUNTDOWN = 3 * 1000;
 var PLAYER_SPEED = 10;
 var JUMP_POWER = 10;
 var JUMP_MAX_HEIGHT = MAPCHIP_SIZE * SPRITE_SCALE * (GRID_Y_GROUND - 2);
-var JUMP_STAY_DISTANCE = 40;
+var JUMP_STAY_DISTANCE = 50;
 var GROUND_HEIGHT = MAPCHIP_SIZE * SPRITE_SCALE * (GRID_Y_GROUND);
 var GRAVITY = 0.5;
 var MAP_GRID_X;
@@ -22,7 +22,7 @@ var MAP_GRID_Y;
 
 var COLLISION_SCALE = 3;
 
-var uriboSprite;
+//var uriboSprite;
 
 //マップチップ番号定義
 var MapChipID = {
@@ -60,15 +60,15 @@ var PlayerState = {
 var playerState = new StateStruct(PlayerState.Stay,PlayerState.None);
 
 var mapDataArray = [
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ];
 
 //アセット
@@ -79,6 +79,11 @@ var ASSETS = {
     ground:RESOURCE_FOLDER_PATH + 'Ground.png',
     trap:RESOURCE_FOLDER_PATH + 'Trap1.png',
     goal: RESOURCE_FOLDER_PATH + 'goal.png'
+  },
+
+  //フォント
+  font:{
+    acme: RESOURCE_FOLDER_PATH + 'Acme-Regular.ttf',
   },
 
   //スプライトシート
@@ -190,7 +195,7 @@ phina.define('Player',{
     this.jumpDistance = 0;
 
     //アニメーション回数数える
-    this.damageAnimTime =0;
+    this.damageAnimTime = 0;
 
   },
   update: function(app){
@@ -266,13 +271,21 @@ phina.define('Player',{
           self.damageAnimTime += app.deltaTime;
           if(self.damageAnimTime >= 2000){
             self.damageAnimTime = 0;
-            playerState.current = PlayerState.Running;
+            //playerState.current = PlayerState.Running;
+            gameState.current = GameState.GameOver;
             return;
           }
           
           break;
         case PlayerState.Goal:
-          break;
+          self.damageAnimTime += app.deltaTime;
+            if(self.damageAnimTime >= 2000){
+              self.damageAnimTime = 0;
+              //playerState.current = PlayerState.Running;
+              gameState.current = GameState.Goal;
+              return;
+            }
+            break;
       }  
     };
 
@@ -330,14 +343,15 @@ phina.define('MainScene', {
   init: function(option) {
     this.superInit(option);
     // 背景色を指定
-    this.backgroundColor = '#fff';
+    this.backgroundColor = 'skyblue';
 
     //ラベル
     label = Label({
       text: '',
-      fontSize: 48,
+      fontSize: 70,
       x: this.gridX.center(),
       y: this.gridY.center(),
+      fontFamily: 'acme',
     }).addChildTo(this);
 
     //MAP描画
@@ -352,6 +366,7 @@ phina.define('MainScene', {
         case GameState.Start:
           time += app.deltaTime;
           if(time >= TIME_COUNTDOWN){
+            label.fontSize += 100;
             label.text = 'GO!';
             gameState.current = GameState.GamePlay;
             playerState.current = PlayerState.Running;
@@ -364,25 +379,29 @@ phina.define('MainScene', {
           if(this.x < -100){
             label.text = ''
           }
+          if(playerState.current === PlayerState.Goal){
+            return;
+          }
           if(playerState.current != PlayerState.Damage){
-            this.x -= PLAYER_SPEED; 
-          }else{
-            this.x -= PLAYER_SPEED * 0.3; 
+            this.x -= PLAYER_SPEED + Math.abs(this.x) / 800; 
           }
           break;
         case GameState.GameOver:
           break;
         case GameState.Goal:
-            label.text = 'Goal!'
+            //label.text = 'Goal!'
           break;
       }
     };
   
      //プレイヤー追加
-     uriboSprite = Player().addChildTo(this);
-     uriboSprite.x = MAP_GRID_X.span(1);
-     uriboSprite.y = MAP_GRID_Y.span(GRID_Y_GROUND);
-    
+     this.uriboSprite = Player().addChildTo(this);
+     this.uriboSprite.x = MAP_GRID_X.span(1);
+     this.uriboSprite.y = MAP_GRID_Y.span(GRID_Y_GROUND);
+
+     playerState.current = PlayerState.Stay;
+     gameState.current = GameState.Start;
+  
     //グリッドのマス数入れるとWidthを計算する
     function getGridSize(cellCount){
       var returnObj ={
@@ -458,8 +477,10 @@ phina.define('MainScene', {
           }
           break;
         case GameState.GameOver:
+          self.exit('ゲームオーバー');
           break;
         case GameState.Goal:
+          self.exit('result');
           break;
       }
     };
@@ -473,8 +494,8 @@ phina.define('MainScene', {
             return;
           }       
           self.hitItemArray.forEach(function(hitItem){
-            var playerCol1 = Circle(uriboSprite.x - (FRAME_SIZE * SPRITE_SCALE / 4),uriboSprite.y + uriboSprite.y/16,uriboSprite.radius);
-            var playerCol2 = Circle(uriboSprite.x + (FRAME_SIZE * SPRITE_SCALE / 2),uriboSprite.y + uriboSprite.y/16,uriboSprite.radius)
+            var playerCol1 = Circle(self.uriboSprite.x - (FRAME_SIZE * SPRITE_SCALE / 4),self.uriboSprite.y + self.uriboSprite.y/16,self.uriboSprite.radius);
+            var playerCol2 = Circle(self.uriboSprite.x + (FRAME_SIZE * SPRITE_SCALE / 2),self.uriboSprite.y + self.uriboSprite.y/16,self.uriboSprite.radius)
             var rect = Rect(hitItem.x + self.mapDisplay.x,hitItem.y, hitItem.width * COLLISION_SCALE,hitItem.height* COLLISION_SCALE);
             if(Collision.testCircleRect(playerCol1,rect) || Collision.testCircleRect(playerCol2,rect) ){
               
@@ -484,7 +505,7 @@ phina.define('MainScene', {
                   break;
                 case MapChipID.Goal:
                   playerState.current = PlayerState.Goal;
-                  gameState.current = GameState.Goal;
+                  //gameState.current = GameState.Goal;
                   break;
               }
               
@@ -503,19 +524,226 @@ phina.define('MainScene', {
 
 });
 
+phina.define('TitleScene',{
+  superClass: 'DisplayScene',
+  init: function(option) {
+    this.superInit(option);
+
+    // 背景色を指定
+    this.backgroundColor = '#fff';
+
+    //ラベル
+    Titlelabel = Label({
+      text: 'URIBOU RUN!!',
+      fontSize: 100,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center());
+    
+    textlabel = Label({
+      text: 'Touch to Start',
+      fontSize: 70,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center(3));
+    textlabel.tweener.to({
+      fontSize: 60,
+    },1000,'swing').to({
+      fontSize: 70,
+    },1000,'swing').setLoop(true);
+
+    setumeiLabel = Label({
+      text: '画面をタップしてジャンプ！\n柵をよけて家にたどり着こう！',
+      fontSize: 20,
+      fontFamily: 'MSゴシック',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center(5));
+
+  },
+  onpointend: function() {
+      // exitメソッドでシーンを終了
+      this.exit('main');
+  }
+});
+
+phina.define('GameOverScene',{
+  superClass: 'DisplayScene',
+  //label: 'gameOver',
+  init: function(option) {
+    this.superInit(option);
+
+    // 背景色を指定
+    this.backgroundColor = 'black';
+
+    //ラベル
+    Titlelabel = Label({
+      text: 'Game Over...',
+      fill:'white',
+      fontSize: 100,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center());
+    
+    textlabel = Label({
+      text: 'Touch to Restart',
+      fill:'white',
+      fontSize: 70,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center(3));
+    textlabel.tweener.to({
+      fontSize: 60,
+    },1000,'swing').to({
+      fontSize: 70,
+    },1000,'swing').setLoop(true);
+  },
+  onpointend: function() {
+      // exitメソッドでシーンを終了
+      this.exit('title');
+  }
+});
+
+phina.define('ResultScene',{
+  superClass: 'DisplayScene',
+  //label: 'gameOver',
+  init: function(option) {
+    this.superInit(option);
+
+    // 背景色を指定
+    this.backgroundColor = 'lightyellow';
+
+    //ラベル遊ぶ
+    Titlelabel = Label({
+      text: 'Game Clear☺',
+      fill:'gold',
+      fontSize: 80,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(-3),this.gridY.center(-6));
+    
+    Titlelabel = Label({
+      text: 'HAPPY',
+      fill:'darkorange',
+      fontSize: 100,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(-5),this.gridY.center(-2));
+
+    Titlelabel = Label({
+      text: 'NEW',
+      fill:'pink',
+      fontSize: 100,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center(-2));
+
+    Titlelabel = Label({
+      text: 'YEAR',
+      fill:'mediumseagreen',
+      fontSize: 100,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(4),this.gridY.center(-2));
+
+    Titlelabel = Label({
+      text: '2019',
+      fill:'dodgerblue',
+      fontSize: 300,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(),this.gridY.center(3.5));
+
+    textlabel = Label({
+      text: 'Touch to Title',
+      fill:'gold',
+      fontSize: 50,
+      fontFamily: 'acme',
+    }).addChildTo(this).setPosition(this.gridX.center(5),this.gridY.center(7));
+    textlabel.tweener.to({
+      fontSize: 40,
+    },1000,'swing').to({
+      fontSize: 50,
+    },1000,'swing').setLoop(true);
+
+    //プレイヤー追加
+    var sprite1 = PixelSprite('uribo').addChildTo(this).setPosition(this.gridX.center(6),this.gridY.center(3)).setScale(5);
+    var anim = FrameAnimation('uribo_ss').attachTo(sprite1);
+    anim.gotoAndPlay('running');
+
+    var sprite2 = PixelSprite('uribo').addChildTo(this).setPosition(this.gridX.center(-6),this.gridY.center(3)).setScale(5);
+    var anim = FrameAnimation('uribo_ss').attachTo(sprite2);
+    anim.gotoAndPlay('running');
+
+  },
+  onpointend: function() {
+      // exitメソッドでシーンを終了
+      this.exit('title');
+  }
+});
+
+//シーン管理
+phina.define("SceneSequence", {
+  // phina.game.ManagerSceneを継承します
+  superClass: "phina.game.ManagerScene",
+  // 初期化
+  init: function() {
+    this.superInit({
+      scenes: [
+        //タイトル
+        {
+          label: "title", // ラベル。参照用
+          className: "TitleScene", // シーンAのクラス名
+        },
+        //メイン
+        {
+          label: "main",
+          className: "MainScene",
+          //nextLabel: "シーンA" // シーン終了時に次に遷移するシーンのラベル
+        },
+        //ゲームオーバー
+        {
+          label: 'ゲームオーバー', // ラベル。参照用
+          className: 'GameOverScene', // シーンAのクラス名
+        },
+        //リザルト
+        {
+          label: "result", // ラベル。参照用
+          className: "ResultScene", // シーンAのクラス名
+        },
+      ]
+    });
+  }
+});
+
 // メイン処理
 phina.main(function() {
   // アプリケーション生成
   var app = GameApp({
-    startLabel: 'main', // メインシーンから開始する
+    startLabel: 'title', 
 
     //画面サイズ
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
-    //fit: false,
 
     assets: ASSETS,
+
+    scenes: [
+      //タイトル
+      {
+        label: "title", // ラベル。参照用
+        className: "TitleScene", // シーンAのクラス名
+      },
+      //メイン
+      {
+        label: "main",
+        className: "MainScene",
+        //nextLabel: "シーンA" // シーン終了時に次に遷移するシーンのラベル
+      },
+      //ゲームオーバー
+      {
+        label: 'ゲームオーバー', // ラベル。参照用
+        className: 'GameOverScene', // シーンAのクラス名
+      },
+      //リザルト
+      {
+        label: "result", // ラベル。参照用
+        className: "ResultScene", // シーンAのクラス名
+      },
+    ]
+
   });
+
+  
   // アプリケーション実行
   app.run();
 });
